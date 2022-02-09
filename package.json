@@ -1,0 +1,39 @@
+{
+  "private": true,
+  "name": "reloox",
+  "description": "",
+  "license": "",
+  "scripts": {
+    "build": "npm run build:css && remix build",
+    "build:css": "tailwindcss -o ./app/tailwind.css",
+    "dev": "concurrently \"npm run dev:css\" \"remix dev\"",
+    "dev:css": "tailwindcss -o ./app/tailwind.css --watch",
+    "postinstall": "remix setup node"
+  },
+  "dependencies": {
+    "@hookform/resolvers": "^2.8.8",
+    "@remix-run/react": "^1.1.3",
+    "@remix-run/serve": "^1.1.3",
+    "@remix-run/vercel": "^1.1.3",
+    "bcrypt": "^5.0.1",
+    "daisyui": "^1.25.4",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-hook-form": "^7.26.1",
+    "react-icons": "^4.3.1",
+    "remix": "^1.1.3",
+    "yup": "^0.32.11"
+  },
+  "devDependencies": {
+    "@remix-run/dev": "^1.1.3",
+    "@types/react": "^17.0.24",
+    "@types/react-dom": "^17.0.9",
+    "concurrently": "^7.0.0",
+    "tailwindcss": "^3.0.19",
+    "typescript": "^4.1.2"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "sideEffects": false
+}
