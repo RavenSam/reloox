@@ -6,6 +6,7 @@ import { signup_inputs } from "../../../config/inputs"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { signupSchema } from "../../../config/yupSchema"
+import { isEmpty } from "lodash"
 
 // export const action: ActionFunction = async ({ request }) => {
 //    const form = await request.formData()
@@ -60,6 +61,7 @@ export default function Signup(): JSX.Element {
                      placeholder={input.placeholder}
                      {...register(input.name)}
                      className="input focus:input-primary input-bordered"
+                     required
                   />
                   {errors[input.name] && (
                      <label className="label">
@@ -71,12 +73,16 @@ export default function Signup(): JSX.Element {
 
             <div className="form-control">
                <label className="cursor-pointer label !justify-start gap-2">
-                  <input type="checkbox" className="checkbox checkbox-primary " />
+                  <input type="checkbox" className="checkbox checkbox-primary " required />
                   <span className="label-text">I agree to terms</span>
                </label>
             </div>
 
-            <button type="submit" className={`btn btn-primary ${isSubmitting && "loading"}`} disabled={isSubmitting}>
+            <button
+               type="submit"
+               className={`btn btn-primary ${isSubmitting && "loading"}`}
+               disabled={isSubmitting || !isEmpty(errors)}
+            >
                Sign Up
             </button>
          </form>

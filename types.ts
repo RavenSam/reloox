@@ -8,4 +8,5 @@ export type logInputsType = {
    label: string
    type: string
    placeholder?: string
+   inputType?: string
 }

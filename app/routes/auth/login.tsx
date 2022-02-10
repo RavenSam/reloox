@@ -5,6 +5,7 @@ import { login_inputs } from "../../../config/inputs"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { loginSchema } from "../../../config/yupSchema"
+import { isEmpty } from "lodash"
 
 // export const action: ActionFunction = async ({ request }) => {
 //    const form = await request.formData()
@@ -48,6 +49,7 @@ export default function Login(): JSX.Element {
                      placeholder={input.placeholder}
                      {...register(input.name)}
                      className="input focus:input-primary input-bordered"
+                     required
                   />
                   {errors[input.name] && (
                      <label className="label">
@@ -64,7 +66,11 @@ export default function Login(): JSX.Element {
                </label>
             </div>
 
-            <button type="submit" className={`btn btn-primary ${isSubmitting && "loading"}`} disabled={isSubmitting}>
+            <button
+               type="submit"
+               className={`btn btn-primary ${isSubmitting && "loading"}`}
+               disabled={isSubmitting || !isEmpty(errors)}
+            >
                Sign Up
             </button>
          </form>

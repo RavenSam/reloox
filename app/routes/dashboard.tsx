@@ -1,12 +1,14 @@
-import { Outlet, Link, useLocation } from "remix"
+import { Outlet } from "remix"
 import UserLayout from "~/components/UserLayout"
 
 export default function DashboardLayout(): JSX.Element {
    return (
-      <div>
+      <>
          <UserLayout>
-            <Outlet />
+            <div className="p-4">
+               <Outlet />
+            </div>
          </UserLayout>
-      </div>
+      </>
    )
 }
