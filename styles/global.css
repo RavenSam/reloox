@@ -5,3 +5,34 @@
 body {
    font-family: "Poppins", sans-serif;
 }
+
+@layer components {
+   .btn-primary {
+      @apply px-8 rounded-full;
+   }
+}
+
+@layer base {
+   h1 {
+      @apply text-2xl text-gray-800 md:text-3xl lg:text-4xl font-bold md:font-extrabold;
+   }
+   h2 {
+      @apply text-xl text-gray-800  md:text-2xl lg:text-3xl font-bold md:font-extrabold;
+   }
+
+   h3 {
+      @apply text-lg text-gray-800 md:text-2xl  font-bold md:font-extrabold;
+   }
+
+   h4 {
+      @apply text-lg text-gray-800 md:text-xl lg:text-2xl font-semibold md:font-bold;
+   }
+
+   h5 {
+      @apply text-base text-gray-800 md:text-lg lg:text-lg font-semibold md:font-bold;
+   }
+
+   h6 {
+      @apply text-sm text-gray-800 lg:text-lg md:text-base font-semibold;
+   }
+}

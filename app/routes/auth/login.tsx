@@ -1,7 +1,10 @@
 import { useActionData, json, redirect } from "remix"
-import { login, createUserSession } from "~/lib/session.server"
+// import { login, createUserSession } from "~/lib/session.server"
 import type { ActionFunction, MetaFunction } from "remix"
 import { login_inputs } from "../../../config/inputs"
+import { useForm } from "react-hook-form"
+import { yupResolver } from "@hookform/resolvers/yup"
+import { loginSchema } from "../../../config/yupSchema"
 
 // export const action: ActionFunction = async ({ request }) => {
 //    const form = await request.formData()
@@ -21,6 +24,8 @@ import { login_inputs } from "../../../config/inputs"
 
 export default function Login(): JSX.Element {
    const actionData = useActionData()
+   const { register, formState } = useForm({ mode: "onBlur", resolver: yupResolver(loginSchema) })
+   const { errors, isSubmitting } = formState
 
    return (
       <div className="mt-6">
@@ -32,31 +37,34 @@ export default function Login(): JSX.Element {
             </div>
          )}
 
-         <form method="POST" className="accent-primary space-y-4 mt-2">
+         <form method="POST" className=" space-y-4 mt-2">
             {login_inputs.map((input, i) => (
                <div key={i} className="form-control">
                   <label className="label">
-                     <span className="label-text capitalize">{input.name}</span>
+                     <span className="label-text capitalize">{input.label}</span>
                   </label>
                   <input
                      type={input.type}
-                     name={input.name}
-                     id={input.name}
                      placeholder={input.placeholder}
-                     className="input focus:input-accent input-bordered"
-                     required
+                     {...register(input.name)}
+                     className="input focus:input-primary input-bordered"
                   />
+                  {errors[input.name] && (
+                     <label className="label">
+                        <span className="label-text-alt text-pink-500">{errors[input.name]?.message}</span>
+                     </label>
+                  )}
                </div>
             ))}
 
             <div className="form-control">
                <label className="cursor-pointer label !justify-start gap-2">
-                  <input type="checkbox" className="checkbox checked:checkbox-accent " />
+                  <input type="checkbox" className="checkbox checkbox-primary " />
                   <span className="label-text">Remember me</span>
                </label>
             </div>
 
-            <button type="submit" className="btn btn-accent px-8 rounded-full">
+            <button type="submit" className={`btn btn-primary ${isSubmitting && "loading"}`} disabled={isSubmitting}>
                Sign Up
             </button>
          </form>

@@ -1,4 +1,4 @@
-import { PropsWithChildren, useState } from "react"
+import { PropsWithChildren, useEffect, useState } from "react"
 import { BiMenu } from "react-icons/bi"
 import { Link } from "remix"
 import { linkType } from "types"
@@ -9,6 +9,10 @@ interface MenuProps {
 
 export default function MenuSM({ navLinks }: PropsWithChildren<MenuProps>): JSX.Element {
    const [open, setOpen] = useState<boolean>(false)
+
+   useEffect(() => {
+      document.body.style.overflowY = open ? "hidden" : "auto"
+   }, [open])
 
    return (
       <>
@@ -26,7 +30,7 @@ export default function MenuSM({ navLinks }: PropsWithChildren<MenuProps>): JSX.
 
             <div
                className={`absolute  right-0 top-0 h-screen w-full  transform transition-all duration-500 bg-white z-50 shadow-xl max-w-xs  ${
-                  open ? "translate-x-0" : "translate-x-full"
+                  open ? "translate-x-0 opacity-1" : "translate-x-full opacity-0"
                }`}
             >
                <ul className="menu p-4 overflow-y-auto w-full  text-base-content">

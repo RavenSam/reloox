@@ -49,7 +49,7 @@ export default function Signup(): JSX.Element {
             </div>
          )}
 
-         <form method="POST" className="accent-primary space-y-4 mt-2">
+         <form method="POST" className=" space-y-4 mt-2">
             {signup_inputs.map((input, i) => (
                <div key={i} className="form-control">
                   <label className="label">
@@ -59,7 +59,7 @@ export default function Signup(): JSX.Element {
                      type={input.type}
                      placeholder={input.placeholder}
                      {...register(input.name)}
-                     className="input focus:input-accent input-bordered"
+                     className="input focus:input-primary input-bordered"
                   />
                   {errors[input.name] && (
                      <label className="label">
@@ -71,12 +71,12 @@ export default function Signup(): JSX.Element {
 
             <div className="form-control">
                <label className="cursor-pointer label !justify-start gap-2">
-                  <input type="checkbox" className="checkbox checked:checkbox-accent focus:checkbox-accent " />
+                  <input type="checkbox" className="checkbox checkbox-primary " />
                   <span className="label-text">I agree to terms</span>
                </label>
             </div>
 
-            <button type="submit" className="btn btn-accent px-8 rounded-full">
+            <button type="submit" className={`btn btn-primary ${isSubmitting && "loading"}`} disabled={isSubmitting}>
                Sign Up
             </button>
          </form>
