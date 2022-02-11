@@ -1,10 +1,19 @@
 import { useEffect, useState } from "react"
 import slugify from "../../../utilts/slugify"
 import ImageUpload from "~/components/shared/ImageUpload"
+import type { ActionFunction } from "remix"
+
+export const action: ActionFunction = async ({ request }) => {
+   const form = await request.formData()
+
+   console.log(form)
+   return null
+}
 
 export default function NewArticle(): JSX.Element {
    const [title, setTitle] = useState<string>("")
    const [slug, setSlug] = useState<string>("")
+   const [uploadedImage, setUploadedImage] = useState<any>()
 
    useEffect(() => {
       setSlug(slugify(title))
@@ -24,6 +33,7 @@ export default function NewArticle(): JSX.Element {
                   </label>
                   <input
                      type="text"
+                     name="title"
                      className="input focus:input-primary input-bordered w-full"
                      value={title}
                      onChange={(e) => setTitle(e.target.value)}
@@ -36,6 +46,7 @@ export default function NewArticle(): JSX.Element {
                   </label>
                   <input
                      type="text"
+                     name="slug"
                      className="input focus:input-primary input-bordered w-full"
                      value={slug}
                      onChange={(e) => setSlug(e.target.value)}
@@ -50,13 +61,14 @@ export default function NewArticle(): JSX.Element {
                      <span className="label-text">Descrition</span>
                   </label>
                   <textarea
-                     name="content"
+                     name="description"
                      className="textarea h-full textarea-bordered focus:textarea-primary  w-full"
                      required
                   ></textarea>
                </div>
 
-               <ImageUpload />
+               <ImageUpload uploadedImage={uploadedImage} setUploadedImage={setUploadedImage} />
+               <input type="hidden" name="featuredImage" value={uploadedImage?.url} className="hidden" />
             </div>
 
             <div className="card bordered">
@@ -79,6 +91,10 @@ export default function NewArticle(): JSX.Element {
                   required
                ></textarea>
             </div>
+
+            <button type="submit" className="btn btn-primary">
+               Save Post
+            </button>
          </form>
       </>
    )
