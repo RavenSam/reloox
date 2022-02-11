@@ -5,7 +5,7 @@ interface UploadProps {
 }
 
 export default function useUploadImage({ imageFile }: UploadProps) {
-   const [uploadedData, setUploadedData] = useState({})
+   const [uploadedData, setUploadedData] = useState<any>({})
    const [isLoading, setIsLoading] = useState<boolean>(false)
    const [error, setError] = useState<any>({})
 

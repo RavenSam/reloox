@@ -32,6 +32,10 @@ export default function ImageUpload({
       }
    }
 
+   useEffect(() => setUploadedImage(uploadedData), [uploadedData])
+
+   useEffect(() => setPreview(uploadedImage?.url), [uploadedImage])
+
    return (
       <>
          <div className="form-control">

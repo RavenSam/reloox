@@ -29,7 +29,7 @@ export default function NewArticle(): JSX.Element {
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                <div className="form-control flex-1">
                   <label className="label">
-                     <span className="label-text">Post Title</span>
+                     <span className="label-text">Article Title</span>
                   </label>
                   <input
                      type="text"
@@ -68,13 +68,13 @@ export default function NewArticle(): JSX.Element {
                </div>
 
                <ImageUpload uploadedImage={uploadedImage} setUploadedImage={setUploadedImage} />
-               <input type="hidden" name="featuredImage" value={uploadedImage?.url} className="hidden" />
+               <input type="hidden" name="featuredImage" value={uploadedImage?.url || ""} className="hidden" required />
             </div>
 
-            <div className="card bordered">
+            <div className="card bordered w-fit">
                <div className="form-control">
                   <label className="cursor-pointer label !justify-start gap-4">
-                     <input type="checkbox" className="toggle toggle-primary" />
+                     <input type="checkbox" name="featuedArticle" className="toggle toggle-primary" />
                      <span className="label-text">Featured post</span>
                   </label>
                </div>
@@ -82,7 +82,7 @@ export default function NewArticle(): JSX.Element {
 
             <div className="form-control">
                <label className="label">
-                  <span className="label-text">Post Content</span>
+                  <span className="label-text">Article Content</span>
                </label>
                <textarea
                   name="content"

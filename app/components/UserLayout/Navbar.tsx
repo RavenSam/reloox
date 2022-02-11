@@ -39,7 +39,7 @@ export default function Navbar(): JSX.Element {
                <div className="flex-none">
                   <div className="avatar">
                      <div className="rounded-full w-10 h-10 m-1">
-                        <img src="" />
+                        <img src="/user.jpg" />
                      </div>
                   </div>
                </div>
