@@ -15,6 +15,7 @@ export default function NewArticle(): JSX.Element {
    const [title, setTitle] = useState<string>("")
    const [slug, setSlug] = useState<string>("")
    const [uploadedImage, setUploadedImage] = useState<any>()
+   const [content, setContent] = useState("")
 
    useEffect(() => setSlug(slugify(title)), [title])
 
@@ -79,7 +80,8 @@ export default function NewArticle(): JSX.Element {
                </div>
             </div>
 
-            <ContentInput />
+            <ContentInput setContent={setContent} />
+            <input type="hidden" name="content" value={content} className="hidden" required />
 
             <button type="submit" className="btn btn-primary">
                Save Post

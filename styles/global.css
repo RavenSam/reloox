@@ -36,3 +36,24 @@ body {
       @apply text-sm text-gray-800 lg:text-lg md:text-base font-semibold;
    }
 }
+
+.ck-toolbar_grouping {
+   border-radius: 10px !important;
+   border: 1px solid #c4c4c4 !important;
+}
+
+.ck-editor__main {
+   margin: 0.5rem 0;
+}
+
+.ck-rounded-corners {
+   border-radius: 10px !important;
+}
+
+.ck-content {
+   min-height: 30vh;
+}
+
+.ck-file-dialog-button {
+   display: none;
+}
