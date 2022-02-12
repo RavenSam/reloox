@@ -24,7 +24,6 @@ export const loader = async () => {
 export default function PostItems() {
    const { articles }: { articles: ArticlesTypes[] } = useLoaderData()
 
-   console.log(articles)
    return (
       <div>
          <h1 className="">Articles</h1>
