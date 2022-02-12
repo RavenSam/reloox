@@ -1,4 +1,5 @@
 import { BiPencil, BiTrash } from "react-icons/bi"
+import { Link } from "remix"
 
 const dummyArticles = [
    { title: "Article one", created: "24 dec 2021", category: "finance", img: "" },
@@ -48,9 +49,12 @@ export default function ArticlesTable() {
                                     </td>
                                     <td className="p-2 whitespace-nowrap">
                                        <div className="flex items-center">
-                                          <div className="font-medium text-gray-800 max-w-[15ch] truncate">
+                                          <Link
+                                             to={`/dashboard/articles/${i}`}
+                                             className="font-medium text-gray-800 max-w-[15ch] truncate"
+                                          >
                                              {el.title}
-                                          </div>
+                                          </Link>
                                        </div>
                                     </td>
 

@@ -13,3 +13,25 @@ export type logInputsType = {
    placeholder?: string
    inputType?: string
 }
+
+export interface ArticleTypes {
+   id: number
+   authorId: number
+   slug: string
+   title: string
+   content: string
+   description: string
+   thumbnail?: string
+   createdAt: Date
+   updatedAt: Date
+}
+
+export interface ArticlesTypes {
+   id: number
+   title: string
+   slug: string
+   createdAt: Date
+   description: string
+   authorId: number
+   categories: any[]
+}

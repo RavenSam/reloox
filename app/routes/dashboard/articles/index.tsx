@@ -10,7 +10,7 @@ export default function Articles() {
             <h1>Articles</h1>
 
             <div className="">
-               <Link to="/dashboard/new-article" className="btn btn-outline btn-primary gap-2">
+               <Link to="/dashboard/articles/new-article" className="btn btn-outline btn-primary gap-2">
                   <BiPlus size={18} />
                   New Article
                </Link>

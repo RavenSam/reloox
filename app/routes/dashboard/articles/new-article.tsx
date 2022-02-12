@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react"
-import slugify from "../../../utilts/slugify"
+import slugify from "../../../../utilts/slugify"
 import ImageUpload from "~/components/shared/ImageUpload"
 import type { ActionFunction } from "remix"
+import ContentInput from "~/components/ContentInput"
 
 export const action: ActionFunction = async ({ request }) => {
    const form = await request.formData()
@@ -15,14 +16,12 @@ export default function NewArticle(): JSX.Element {
    const [slug, setSlug] = useState<string>("")
    const [uploadedImage, setUploadedImage] = useState<any>()
 
-   useEffect(() => {
-      setSlug(slugify(title))
-   }, [title])
+   useEffect(() => setSlug(slugify(title)), [title])
 
    return (
       <>
-         <div>
-            <h2>New Article</h2>
+         <div className="flex items-center justify-between py-5">
+            <h1>New Article</h1>
          </div>
 
          <form method="post" className="max-w-2xl mx-auto py-12 space-y-8">
@@ -80,17 +79,7 @@ export default function NewArticle(): JSX.Element {
                </div>
             </div>
 
-            <div className="form-control">
-               <label className="label">
-                  <span className="label-text">Article Content</span>
-               </label>
-               <textarea
-                  name="content"
-                  className="textarea textarea-bordered focus:textarea-primary  w-full"
-                  rows={5}
-                  required
-               ></textarea>
-            </div>
+            <ContentInput />
 
             <button type="submit" className="btn btn-primary">
                Save Post
