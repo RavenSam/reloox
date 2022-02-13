@@ -1,39 +1,43 @@
-import { useActionData, json, redirect, MetaFunction } from "remix"
-// import { db } from "~/lib/db.server"
-// import { createUserSession, register } from "~/lib/session.server"
-// import type { ActionFunction } from "remix"
+import { useActionData, json, MetaFunction } from "remix"
+import { db } from "~/lib/db.server"
+import { createUserSession, register } from "~/lib/session.server"
+import type { ActionFunction } from "remix"
 import { signup_inputs } from "../../../config/inputs"
 import { useForm } from "react-hook-form"
 import { yupResolver } from "@hookform/resolvers/yup"
 import { signupSchema } from "../../../config/yupSchema"
 import { isEmpty } from "lodash"
 
-// export const action: ActionFunction = async ({ request }) => {
-//    const form = await request.formData()
+export const action: ActionFunction = async ({ request }) => {
+   const form = await request.formData()
 
-//    const fields = { username: form.get("username"), email: form.get("email"), password: form.get("password") }
+   const fields = { username: form.get("username"), email: form.get("email"), password: form.get("password") }
 
-//    // Check if user exists
-//    const userExists = await db.user.findFirst({ where: { username: fields.username } })
-//    const emailExists = await db.user.findFirst({ where: { email: fields.email } })
+   if (typeof fields.username !== "string" || typeof fields.email !== "string") {
+      return json({ fieldErrors: { form: "Invalid Fields" }, fields })
+   }
 
-//    if (userExists) {
-//       return json({ fieldErrors: { username: "username already taken" } })
-//    }
+   // Check if user exists
+   const userExists = await db.user.findFirst({ where: { username: fields.username } })
+   const emailExists = await db.user.findFirst({ where: { email: fields.email } })
 
-//    if (emailExists) {
-//       return json({ fieldErrors: { email: "email already registred" } })
-//    }
+   if (userExists) {
+      return json({ fieldErrors: { username: "username already taken" }, fields })
+   }
 
-//    // Create user
-//    const user = await register(fields)
-//    if (!user) {
-//       return json({ fieldErrors: { form: "Something went wrong" } })
-//    }
+   if (emailExists) {
+      return json({ fieldErrors: { email: "email already registred" }, fields })
+   }
 
-//    // Create user session
-//    return createUserSession(user.id, "/posts")
-// }
+   // Create user
+   const user = await register(fields)
+   if (!user) {
+      return json({ fieldErrors: { form: "Something went wrong" }, fields })
+   }
+
+   // Create user session
+   return createUserSession(user.id, "/")
+}
 
 export default function Signup(): JSX.Element {
    const actionData = useActionData()
@@ -57,10 +61,12 @@ export default function Signup(): JSX.Element {
                      <span className="label-text capitalize">{input.label}</span>
                   </label>
                   <input
+                     minLength={4}
+                     defaultValue={actionData?.fields[input.name]}
                      type={input.type}
                      placeholder={input.placeholder}
                      {...register(input.name)}
-                     className="input focus:input-primary input-bordered"
+                     className="input focus:input-primary input-bordered focus:invalid:input-secondary"
                      required
                   />
                   {errors[input.name] && (

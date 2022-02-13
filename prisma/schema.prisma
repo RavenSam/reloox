@@ -22,12 +22,12 @@ model User {
 }
 
 model Profile {
-   id     Int    @id @default(autoincrement())
-   bio    String
-   name   String
-   avatar String
-   userId Int    @unique
-   user   User   @relation(fields: [userId], references: [id])
+   id     Int     @id @default(autoincrement())
+   bio    String?
+   name   String?
+   avatar String?
+   userId Int     @unique
+   user   User    @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
 model Post {

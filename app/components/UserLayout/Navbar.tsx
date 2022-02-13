@@ -4,11 +4,11 @@ import UserMenu from "../Header/UserMenu"
 
 const userLinks = [
    { name: "home", href: "/" },
-   { name: "create article", href: "/dashboard/articles/new-articles" },
+   { name: "create article", href: "/dashboard/articles/new-article" },
    { name: "browse articles", href: "/articles" },
 ]
 
-export default function Navbar(): JSX.Element {
+export default function Navbar({ user }): JSX.Element {
    return (
       <>
          <header className="sticky top-0 left-0 w-full p-1 z-10">
@@ -44,7 +44,7 @@ export default function Navbar(): JSX.Element {
                   </button>
                </div>
                <div className="flex-none">
-                  <UserMenu userLinks={userLinks} />
+                  <UserMenu user={user} userLinks={userLinks} />
                </div>
             </div>
          </header>

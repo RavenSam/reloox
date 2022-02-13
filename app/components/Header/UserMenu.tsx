@@ -1,3 +1,4 @@
+import { User } from "@prisma/client"
 import { PropsWithChildren, useState } from "react"
 import { Link } from "remix"
 import { linkType } from "types"
@@ -5,11 +6,16 @@ import { linkType } from "types"
 const navLinks: linkType[] = [
    { name: "dashboard", href: "/dashboard" },
    { name: "my articles", href: "/dashboard/articles" },
-   { name: "create article", href: "/dashboard/articles/new-articles" },
+   { name: "create article", href: "/dashboard/articles/new-article" },
    { name: "settings", href: "/dashboard/" },
 ]
 
-export default function UserMenu({ userLinks = navLinks }: PropsWithChildren<{ userLinks?: linkType[] }>): JSX.Element {
+interface UserMenuProps {
+   userLinks?: linkType[]
+   user: any
+}
+
+export default function UserMenu({ userLinks = navLinks, user }: PropsWithChildren<UserMenuProps>): JSX.Element {
    const [menuOpen, setMenuOpen] = useState(false)
 
    const toggleClass = menuOpen
@@ -26,12 +32,13 @@ export default function UserMenu({ userLinks = navLinks }: PropsWithChildren<{ u
       <>
          <div className="relative">
             <button
+               title={user?.username}
                aria-label="user menu"
                className="w-12 h-12"
                onClick={() => setMenuOpen(!menuOpen)}
                onBlur={handleBlur}
             >
-               <img src="/user.jpg" width={48} height={48} className="mask mask-squircle" />
+               <img src={user?.profile?.avatar} width={48} height={48} className="mask mask-squircle" />
             </button>
 
             <div

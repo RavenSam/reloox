@@ -50,7 +50,7 @@ export default function ArticlesTable() {
                                     <td className="p-2 whitespace-nowrap">
                                        <div className="flex items-center">
                                           <Link
-                                             to={`/dashboard/articles/${i}`}
+                                             to={`/dashboard/articles/edit/${i}`}
                                              className="font-medium text-gray-800 max-w-[15ch] truncate"
                                           >
                                              {el.title}

@@ -28,19 +28,25 @@ export default function Footer() {
             <div>
                <span className="footer-title">Services</span>
                {servicesLink.map((el, i) => (
-                  <a href={el.href}>{el.name}</a>
+                  <a key={i} href={el.href}>
+                     {el.name}
+                  </a>
                ))}
             </div>
             <div>
                <span className="footer-title">Company</span>
                {companyLink.map((el, i) => (
-                  <a href={el.href}>{el.name}</a>
+                  <a key={i} href={el.href}>
+                     {el.name}
+                  </a>
                ))}
             </div>
             <div>
                <span className="footer-title">Legal</span>
                {legalLink.map((el, i) => (
-                  <a href={el.href}>{el.name}</a>
+                  <a key={i} href={el.href}>
+                     {el.name}
+                  </a>
                ))}
             </div>
          </footer>

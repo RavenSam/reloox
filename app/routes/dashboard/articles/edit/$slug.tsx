@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import slugify from "../../../../utilts/slugify"
+import slugify from "../../../../../utilts/slugify"
 import ImageUpload from "~/components/shared/ImageUpload"
 import type { ActionFunction } from "remix"
 import ContentInput from "~/components/ContentInput"

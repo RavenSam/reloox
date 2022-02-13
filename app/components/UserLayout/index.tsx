@@ -1,3 +1,4 @@
+import { User } from "@prisma/client"
 import { PropsWithChildren } from "react"
 import {
    MdOutlineSpaceDashboard,
@@ -5,7 +6,6 @@ import {
    MdOutlineSettings,
    MdOutlineNote,
    MdOutlineLogout,
-   MdOutlineHome,
 } from "react-icons/md"
 import { Link } from "remix"
 import { linkType } from "types"
@@ -18,13 +18,17 @@ const dashboardLinks: linkType[] = [
    { name: "settings", href: "/dashboard", icon: MdOutlineSettings },
 ]
 
-export default function UserLayout({ children }: PropsWithChildren<{}>): JSX.Element {
+interface UserLayoutProps {
+   user: User
+}
+
+export default function UserLayout({ children, user }: PropsWithChildren<UserLayoutProps>): JSX.Element {
    return (
       <>
          <div className="bg-base-200 drawer drawer-mobile h-screen overflow-y-auto ">
             <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
             <div className="relative drawer-content bg-gray-100">
-               <Navbar />
+               <Navbar user={user} />
 
                <div className="">{children}</div>
             </div>

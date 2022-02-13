@@ -37,7 +37,7 @@ export default function Navbar({ user }): JSX.Element {
                      ))}
 
                      {user ? (
-                        <UserMenu />
+                        <UserMenu user={user} />
                      ) : (
                         <Link to={"/auth/login"} className={`btn btn-primary   capitalize`}>
                            Login

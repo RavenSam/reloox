@@ -45,11 +45,12 @@ export default function Login(): JSX.Element {
                      <span className="label-text capitalize">{input.label}</span>
                   </label>
                   <input
+                     minLength={4}
                      defaultValue={actionData?.fields[input.name]}
                      type={input.type}
                      placeholder={input.placeholder}
                      {...register(input.name)}
-                     className="input focus:input-primary input-bordered"
+                     className="input focus:input-primary input-bordered focus:invalid:input-secondary"
                      required
                   />
                   {errors[input.name] && (
