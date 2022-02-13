@@ -14,7 +14,7 @@ interface signupSchemaInterface {
 
 export const loginSchema: SchemaOf<loginSchemaInterface> = object().shape({
    email: string().email().required(),
-   password: string().min(8).max(32).required(),
+   password: string().min(6).max(32).required(),
    remember: boolean(),
 })
 

@@ -25,7 +25,7 @@ export default function NewArticle(): JSX.Element {
             <h1>New Article</h1>
          </div>
 
-         <form method="post" className="max-w-2xl mx-auto py-12 space-y-8">
+         <form method="post" className="max-w-3xl mx-auto py-12 space-y-8">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                <div className="form-control flex-1">
                   <label className="label">

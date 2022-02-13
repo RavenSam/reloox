@@ -1,10 +1,17 @@
 import { BiMenu, BiSearch, BiBell } from "react-icons/bi"
 import { Link } from "remix"
+import UserMenu from "../Header/UserMenu"
+
+const userLinks = [
+   { name: "home", href: "/" },
+   { name: "create article", href: "/dashboard/articles/new-articles" },
+   { name: "browse articles", href: "/articles" },
+]
 
 export default function Navbar(): JSX.Element {
    return (
       <>
-         <header className="sticky top-0 left-0 w-full p-1">
+         <header className="sticky top-0 left-0 w-full p-1 z-10">
             <div className="navbar mb-2 shadow border bg-white text-gray-700 rounded-box space-x-4">
                <div className="flex-none lg:hidden px-2">
                   <label htmlFor="my-drawer-2" className="drawer-button  cursor-pointer">
@@ -32,16 +39,12 @@ export default function Navbar(): JSX.Element {
                   </button>
                </div>
                <div className="flex-none">
-                  <button className="btn btn-square btn-ghost">
+                  <button className="btn btn-square btn-ghost ">
                      <BiBell size={25} />
                   </button>
                </div>
                <div className="flex-none">
-                  <div className="avatar">
-                     <div className="rounded-full w-10 h-10 m-1">
-                        <img src="/user.jpg" />
-                     </div>
-                  </div>
+                  <UserMenu userLinks={userLinks} />
                </div>
             </div>
          </header>

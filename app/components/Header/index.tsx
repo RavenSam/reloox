@@ -1,14 +1,15 @@
 import { Link, useLocation } from "remix"
 import { linkType } from "types"
 import MenuSM from "./MenuSM"
+import UserMenu from "./UserMenu"
 
 const navLinks: linkType[] = [
    { name: "home", href: "/" },
-   { name: "login", href: "/auth/login" },
-   { name: "sign up", href: "/auth/signup" },
+   { name: "articles", href: "/articles" },
+   { name: "contact", href: "/contact" },
 ]
 
-export default function Navbar(): JSX.Element {
+export default function Navbar({ user }): JSX.Element {
    const { pathname } = useLocation()
 
    return (
@@ -22,7 +23,7 @@ export default function Navbar(): JSX.Element {
                </div>
 
                <div className="flex-none hidden px-2 mx-2 md:flex">
-                  <div className="flex items-stretch">
+                  <div className="flex items-stretch space-x-1">
                      {navLinks.map((el, i) => (
                         <Link
                            key={i}
@@ -34,6 +35,14 @@ export default function Navbar(): JSX.Element {
                            {el.name}
                         </Link>
                      ))}
+
+                     {user ? (
+                        <UserMenu />
+                     ) : (
+                        <Link to={"/auth/login"} className={`btn btn-primary   capitalize`}>
+                           Login
+                        </Link>
+                     )}
                   </div>
                </div>
 

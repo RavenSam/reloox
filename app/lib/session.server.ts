@@ -5,20 +5,24 @@ import { createCookieSessionStorage, redirect } from "remix"
 // *********************************************************************************
 // Login User
 interface loginProps {
-   username: string
-   password: string
+   email: FormDataEntryValue | null
+   password: FormDataEntryValue | null
 }
-export const login = async ({ username, password }: loginProps) => {
-   const user = await db.user.findUnique({ where: { username } })
+export const login = async ({ email, password }: loginProps) => {
+   if (typeof email === "string" && typeof password === "string") {
+      const user = await db.user.findUnique({ where: { email } })
 
-   if (!user) return null
+      if (!user) return null
 
-   // Check Password
-   const isCorrectPassword = await bcrypt.compare(password, user.passwordHash)
+      // Check Password
+      const isCorrectPassword = await bcrypt.compare(password, user.passwordHash)
 
-   if (!isCorrectPassword) return null
+      if (!isCorrectPassword) return null
 
-   return user
+      return user
+   } else {
+      return null
+   }
 }
 
 // *********************************************************************************
@@ -54,7 +58,7 @@ const storage = createCookieSessionStorage({
 
 // *********************************************************************************
 // Create Session
-export const createUserSession = async (userId: string, redirectTo: string) => {
+export const createUserSession = async (userId: number, redirectTo: string) => {
    const session = await storage.getSession()
 
    session.set("userId", userId)

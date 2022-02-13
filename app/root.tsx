@@ -1,8 +1,15 @@
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration } from "remix"
+import { Links, LiveReload, LoaderFunction, Meta, Outlet, Scripts, ScrollRestoration, useLoaderData } from "remix"
 import type { MetaFunction, LinksFunction, ErrorBoundaryComponent } from "remix"
 import styles from "./tailwind.css"
 import { PropsWithChildren } from "react"
 import Layout from "./components/Layouts"
+import { getUser } from "./lib/session.server"
+
+export const loader: LoaderFunction = async ({ request }) => {
+   const user = await getUser(request)
+
+   return { user }
+}
 
 export const links: LinksFunction = () => {
    return [{ rel: "stylesheet", href: styles }]
@@ -13,10 +20,12 @@ export const meta: MetaFunction = () => {
 }
 
 export default function App(): JSX.Element {
+   const loaderData = useLoaderData()
+
    return (
       <>
          <Document>
-            <Layout>
+            <Layout user={loaderData?.user}>
                <Outlet />
             </Layout>
          </Document>

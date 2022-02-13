@@ -12,7 +12,6 @@ import { linkType } from "types"
 import Navbar from "./Navbar"
 
 const dashboardLinks: linkType[] = [
-   { name: "home", href: "/", icon: MdOutlineHome },
    { name: "dashboard", href: "/dashboard", icon: MdOutlineSpaceDashboard },
    { name: "articles", href: "/dashboard/articles", icon: MdOutlineNote },
    { name: "bookmarks", href: "/dashboard", icon: MdOutlineBookmarks },
@@ -30,9 +29,9 @@ export default function UserLayout({ children }: PropsWithChildren<{}>): JSX.Ele
                <div className="">{children}</div>
             </div>
 
-            <div className="drawer-side shadow-2xl border-r">
+            <div className="drawer-side shadow-2xl border-r ">
                <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
-               <ul className="menu p-4 pt-16 overflow-y-auto w-72 bg-white text-gray-700">
+               <ul className="menu p-4 pt-16 overflow-y-auto w-60 bg-white text-gray-700">
                   {dashboardLinks.map((el: any, i) => (
                      <li key={i}>
                         <Link
@@ -46,13 +45,15 @@ export default function UserLayout({ children }: PropsWithChildren<{}>): JSX.Ele
                   ))}
 
                   <li className="mt-auto">
-                     <Link
-                        to="/dashboard"
-                        className="flex items-center gap-2 capitalize font-medium hover:text-primary "
-                     >
-                        <MdOutlineLogout size={25} />
-                        <span>Log out</span>
-                     </Link>
+                     <form action="/auth/logout" method="post">
+                        <button
+                           type="submit"
+                           className="flex items-center gap-2 capitalize font-medium hover:text-primary "
+                        >
+                           <MdOutlineLogout size={25} />
+                           <span>Log out</span>
+                        </button>
+                     </form>
                   </li>
                </ul>
             </div>

@@ -1,5 +1,5 @@
 import { useActionData, json, redirect } from "remix"
-// import { login, createUserSession } from "~/lib/session.server"
+import { login, createUserSession } from "~/lib/session.server"
 import type { ActionFunction, MetaFunction } from "remix"
 import { login_inputs } from "../../../config/inputs"
 import { useForm } from "react-hook-form"
@@ -7,21 +7,21 @@ import { yupResolver } from "@hookform/resolvers/yup"
 import { loginSchema } from "../../../config/yupSchema"
 import { isEmpty } from "lodash"
 
-// export const action: ActionFunction = async ({ request }) => {
-//    const form = await request.formData()
+export const action: ActionFunction = async ({ request }) => {
+   const form = await request.formData()
 
-//    const fields = { username: form.get("username"), password: form.get("password") }
+   const fields = { email: form.get("email"), password: form.get("password") }
 
-//    // Find User
-//    const user = await login(fields)
+   // Login User
+   const user = await login(fields)
 
-//    if (!user) {
-//       return json({ fieldErrors: { form: "Invalid Credentials" } })
-//    }
+   if (!user) {
+      return json({ fieldErrors: { form: "Invalid Credentials" }, fields })
+   }
 
-//    // Create user session
-//    return createUserSession(user.id, "/posts")
-// }
+   // Create user session
+   return createUserSession(user.id, "/")
+}
 
 export default function Login(): JSX.Element {
    const actionData = useActionData()
@@ -45,6 +45,7 @@ export default function Login(): JSX.Element {
                      <span className="label-text capitalize">{input.label}</span>
                   </label>
                   <input
+                     defaultValue={actionData?.fields[input.name]}
                      type={input.type}
                      placeholder={input.placeholder}
                      {...register(input.name)}

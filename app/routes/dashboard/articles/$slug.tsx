@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import slugify from "../../../../utilts/slugify"
 import ImageUpload from "~/components/shared/ImageUpload"
 import type { ActionFunction } from "remix"
+import ContentInput from "~/components/ContentInput"
 
 export const action: ActionFunction = async ({ request }) => {
    const form = await request.formData()
@@ -14,6 +15,7 @@ export default function EditArticle(): JSX.Element {
    const [title, setTitle] = useState<string>("")
    const [slug, setSlug] = useState<string>("")
    const [uploadedImage, setUploadedImage] = useState<any>()
+   const [content, setContent] = useState("")
 
    useEffect(() => {
       setSlug(slugify(title))
@@ -25,7 +27,7 @@ export default function EditArticle(): JSX.Element {
             <h1>Edit Article</h1>
          </div>
 
-         <form method="post" className="max-w-2xl mx-auto py-12 space-y-8">
+         <form method="post" className="max-w-3xl mx-auto py-12 space-y-8">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                <div className="form-control flex-1">
                   <label className="label">
@@ -80,17 +82,8 @@ export default function EditArticle(): JSX.Element {
                </div>
             </div>
 
-            <div className="form-control">
-               <label className="label">
-                  <span className="label-text">Article Content</span>
-               </label>
-               <textarea
-                  name="content"
-                  className="textarea textarea-bordered focus:textarea-primary  w-full"
-                  rows={5}
-                  required
-               ></textarea>
-            </div>
+            <ContentInput setContent={setContent} />
+            <input type="hidden" name="content" value={content} className="hidden" required />
 
             <button type="submit" className="btn btn-primary">
                Save Post
