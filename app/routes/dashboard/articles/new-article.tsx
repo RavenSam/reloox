@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import slugify from "../../../../utilts/slugify"
 import checkFields from "../../../../utilts/checkFields"
 import ImageUpload from "~/components/shared/ImageUpload"
-import { ActionFunction, json, redirect, useActionData } from "remix"
+import { ActionFunction, json, Link, redirect, useActionData } from "remix"
 import ContentInput from "~/components/ContentInput"
 import { getUser } from "~/lib/session.server"
 import { db } from "~/lib/db.server"
@@ -36,6 +36,7 @@ export const action: ActionFunction = async ({ request }) => {
    }
 
    //  create the post buy updating the user
+   // @ts-ignore: Unreachable code error
    await db.user.update({ where: { id: user.id }, data: { posts: { create: fields } } })
 
    return redirect("/dashboard/articles")
@@ -43,10 +44,10 @@ export const action: ActionFunction = async ({ request }) => {
 
 export default function NewArticle(): JSX.Element {
    const actionData = useActionData()
-   const [title, setTitle] = useState<string>("")
-   const [slug, setSlug] = useState<string>("")
-   const [uploadedImage, setUploadedImage] = useState<any>()
-   const [content, setContent] = useState("")
+   const [title, setTitle] = useState<string>(actionData?.fields?.title || "")
+   const [slug, setSlug] = useState<string>(actionData?.fields?.slug || "")
+   const [uploadedImage, setUploadedImage] = useState<any>(actionData?.fields?.thumbnail)
+   const [content, setContent] = useState(actionData?.fields?.content || "")
 
    useEffect(() => setSlug(slugify(title)), [title])
 
@@ -129,9 +130,15 @@ export default function NewArticle(): JSX.Element {
             <ContentInput content={content} setContent={setContent} />
             <input type="hidden" name="content" value={content} className="hidden" required />
 
-            <button type="submit" className="btn btn-primary">
-               Publish Post
-            </button>
+            <div className="flex items-center space-x-2">
+               <button type="submit" className="btn btn-primary">
+                  Publish
+               </button>
+
+               <Link to="/dashboard/articles" className="btn btn-ghost rounded-full">
+                  Cancel
+               </Link>
+            </div>
          </form>
       </>
    )

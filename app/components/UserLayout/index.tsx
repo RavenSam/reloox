@@ -4,16 +4,17 @@ import {
    MdOutlineSpaceDashboard,
    MdOutlineBookmarks,
    MdOutlineSettings,
-   MdOutlineNote,
    MdOutlineLogout,
+   MdClear,
 } from "react-icons/md"
+import { BsFolder } from "react-icons/bs"
 import { Link } from "remix"
 import { linkType } from "types"
 import Navbar from "./Navbar"
 
 const dashboardLinks: linkType[] = [
    { name: "dashboard", href: "/dashboard", icon: MdOutlineSpaceDashboard },
-   { name: "articles", href: "/dashboard/articles", icon: MdOutlineNote },
+   { name: "articles", href: "/dashboard/articles", icon: BsFolder },
    { name: "bookmarks", href: "/dashboard", icon: MdOutlineBookmarks },
    { name: "settings", href: "/dashboard", icon: MdOutlineSettings },
 ]
@@ -35,12 +36,19 @@ export default function UserLayout({ children, user }: PropsWithChildren<UserLay
 
             <div className="drawer-side shadow-2xl border-r ">
                <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
-               <ul className="menu p-4 pt-16 overflow-y-auto w-60 bg-white text-gray-700">
+               <ul className="relative menu p-4 pt-16 overflow-y-auto w-screen max-w-[18rem] bg-gray-900 text-gray-100">
+                  <label
+                     htmlFor="my-drawer-2"
+                     className="btn btn-square bg-transparent hover:bg-white absolute top-2 right-2 hover:text-primary"
+                  >
+                     <MdClear size={20} />
+                  </label>
+
                   {dashboardLinks.map((el: any, i) => (
                      <li key={i}>
                         <Link
                            to={el.href}
-                           className="flex items-center gap-2 capitalize font-medium hover:text-primary"
+                           className="flex items-center gap-2 capitalize font-medium hover:text-primary hover:bg-white"
                         >
                            <el.icon size={25} />
                            <span>{el.name}</span>
@@ -52,7 +60,7 @@ export default function UserLayout({ children, user }: PropsWithChildren<UserLay
                      <form action="/auth/logout" method="post">
                         <button
                            type="submit"
-                           className="flex items-center gap-2 capitalize font-medium hover:text-primary "
+                           className="flex items-center gap-2 capitalize font-medium hover:text-primary hover:bg-white w-full px-4 py-3 rounded-lg"
                         >
                            <MdOutlineLogout size={25} />
                            <span>Log out</span>

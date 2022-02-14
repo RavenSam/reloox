@@ -5,6 +5,8 @@ import { ActionFunction, Link, LoaderFunction, redirect, useLoaderData } from "r
 import ContentInput from "~/components/ContentInput"
 import { ArticleTypes } from "types"
 import { db } from "~/lib/db.server"
+import { getUser } from "~/lib/session.server"
+import checkFields from "../../../../../utilts/checkFields"
 
 export const loader: LoaderFunction = async ({ params }) => {
    const post = await db.post.findUnique({ where: { slug: params.slug } })
@@ -20,12 +22,37 @@ export const loader: LoaderFunction = async ({ params }) => {
    return data
 }
 
-// export const action: ActionFunction = async ({ request }) => {
-//    const form = await request.formData()
+export const action: ActionFunction = async ({ request }) => {
+   //   Get the author
+   const user = await getUser(request)
 
-//    // Create user session
-//    return redirect("/dashboard/articles")
-// }
+   if (!user) {
+      return redirect("/auth/login")
+   }
+
+   const form = await request.formData()
+
+   const fields = {
+      id: Number(form.get("pid")),
+      title: form.get("title"),
+      slug: form.get("slug"),
+      description: form.get("description"),
+      thumbnail: form.get("thumbnail"),
+      content: form.get("content"),
+   }
+
+   checkFields(fields)
+
+   // Update the post
+   await db.user.update({
+      where: { id: user.id },
+      // @ts-ignore: Unreachable code error
+      data: { posts: { update: { where: { id: fields.id }, data: fields } } },
+   })
+
+   // Create user session
+   return redirect("/dashboard/articles")
+}
 
 export default function EditArticle(): JSX.Element {
    const { post }: { post: ArticleTypes } = useLoaderData()
@@ -46,6 +73,8 @@ export default function EditArticle(): JSX.Element {
          </div>
 
          <form method="post" className="max-w-3xl mx-auto py-12 space-y-8">
+            <input type="hidden" name="pid" value={post.id} className="hidden" />
+
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                <div className="form-control flex-1">
                   <label className="label">
@@ -89,7 +118,7 @@ export default function EditArticle(): JSX.Element {
                </div>
 
                <ImageUpload uploadedImage={uploadedImage} setUploadedImage={setUploadedImage} />
-               <input type="hidden" name="featuredImage" value={uploadedImage?.url || ""} className="hidden" required />
+               <input type="hidden" name="thumbnail" value={uploadedImage?.url || ""} className="hidden" required />
             </div>
 
             <div className="card bordered w-fit">
@@ -104,7 +133,7 @@ export default function EditArticle(): JSX.Element {
             <ContentInput content={content} setContent={setContent} />
             <input type="hidden" name="content" value={content} className="hidden" required />
 
-            <div className="flex items-center">
+            <div className="flex items-center space-x-2">
                <button type="submit" className="btn btn-primary">
                   Save Changes
                </button>

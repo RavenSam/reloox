@@ -3,16 +3,13 @@ import { useState, useEffect, ChangeEvent, PropsWithChildren, Dispatch } from "r
 import useUploadImage from "~/hooks/useUploadImage"
 import { isEmpty } from "lodash"
 
-interface ImageUploadProps {
+interface ImgUpProps {
    uploadedImage: any
    setUploadedImage: Dispatch<any>
 }
 
-export default function ImageUpload({
-   setUploadedImage,
-   uploadedImage,
-}: PropsWithChildren<ImageUploadProps>): JSX.Element {
-   const [preview, setPreview] = useState<string | undefined>()
+export default function ImageUpload({ setUploadedImage, uploadedImage }: PropsWithChildren<ImgUpProps>): JSX.Element {
+   const [preview, setPreview] = useState<string | undefined>(uploadedImage)
    const [imageFile, setImageFile] = useState<File | string>("")
    const { isLoading, uploadedData, error } = useUploadImage({ imageFile })
 
@@ -25,7 +22,9 @@ export default function ImageUpload({
          reader.onload = function (onLoadEvent) {
             const p = onLoadEvent?.target?.result
             const pToString = typeof p === "string" ? p : p?.toString()
-            setPreview(pToString)
+            if (pToString && pToString.length > 3) {
+               setPreview(pToString)
+            }
          }
 
          reader.readAsDataURL(e?.target?.files[0])
@@ -34,7 +33,7 @@ export default function ImageUpload({
 
    useEffect(() => setUploadedImage(uploadedData), [uploadedData])
 
-   useEffect(() => setPreview(uploadedImage?.url), [uploadedImage])
+   useEffect(() => uploadedImage?.url && setPreview(uploadedImage?.url), [uploadedImage])
 
    return (
       <>
