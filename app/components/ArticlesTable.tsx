@@ -3,12 +3,6 @@ import { BiPencil, BiTrash } from "react-icons/bi"
 import { Link } from "remix"
 import { TableArticlesTypes } from "types"
 
-const dummyArticles = [
-   { title: "Article one", created: "24 dec 2021", category: "finance", img: "" },
-   { title: "Article Two", created: "24 dec 2021", category: "adventures", img: "" },
-   { title: "Article Three", created: "24 dec 2021", category: "food", img: "" },
-]
-
 interface ArticlesTableProps {
    articles: TableArticlesTypes[]
 }
@@ -91,10 +85,12 @@ export default function ArticlesTable({ articles }: PropsWithChildren<ArticlesTa
                                        </div>
                                     </td>
 
-                                    <td className="p-2 text-right whitespace-nowrap ">
-                                       <button className="btn btn-ghost btn-sm">
-                                          <BiTrash size={18} />
-                                       </button>
+                                    <td className="p-2 text-right whitespace-nowrap flex items-center justify-end">
+                                       <form action={`/dashboard/articles/delete?post=${el.id}`} method="post">
+                                          <button type="submit" className="btn btn-ghost btn-sm">
+                                             <BiTrash size={18} />
+                                          </button>
+                                       </form>
 
                                        <Link
                                           to={`/dashboard/articles/edit/${el.slug}`}
