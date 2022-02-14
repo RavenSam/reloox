@@ -1,21 +1,39 @@
 import { useEffect, useState } from "react"
 import slugify from "../../../../../utilts/slugify"
 import ImageUpload from "~/components/shared/ImageUpload"
-import type { ActionFunction } from "remix"
+import { ActionFunction, Link, LoaderFunction, redirect, useLoaderData } from "remix"
 import ContentInput from "~/components/ContentInput"
+import { ArticleTypes } from "types"
+import { db } from "~/lib/db.server"
 
-export const action: ActionFunction = async ({ request }) => {
-   const form = await request.formData()
+export const loader: LoaderFunction = async ({ params }) => {
+   const post = await db.post.findUnique({ where: { slug: params.slug } })
 
-   console.log(form)
-   return null
+   if (!post) {
+      throw new Response("Not Found", {
+         status: 404,
+      })
+   }
+
+   const data = { post }
+
+   return data
 }
 
+// export const action: ActionFunction = async ({ request }) => {
+//    const form = await request.formData()
+
+//    // Create user session
+//    return redirect("/dashboard/articles")
+// }
+
 export default function EditArticle(): JSX.Element {
-   const [title, setTitle] = useState<string>("")
-   const [slug, setSlug] = useState<string>("")
-   const [uploadedImage, setUploadedImage] = useState<any>()
-   const [content, setContent] = useState("")
+   const { post }: { post: ArticleTypes } = useLoaderData()
+
+   const [title, setTitle] = useState<string>(post.title)
+   const [slug, setSlug] = useState<string>(post.title)
+   const [uploadedImage, setUploadedImage] = useState<any>(post.thumbnail)
+   const [content, setContent] = useState(post.content)
 
    useEffect(() => {
       setSlug(slugify(title))
@@ -63,6 +81,7 @@ export default function EditArticle(): JSX.Element {
                      <span className="label-text">Descrition</span>
                   </label>
                   <textarea
+                     defaultValue={post.description}
                      name="description"
                      className="textarea h-full textarea-bordered focus:textarea-primary  w-full"
                      required
@@ -82,12 +101,18 @@ export default function EditArticle(): JSX.Element {
                </div>
             </div>
 
-            <ContentInput setContent={setContent} />
+            <ContentInput content={content} setContent={setContent} />
             <input type="hidden" name="content" value={content} className="hidden" required />
 
-            <button type="submit" className="btn btn-primary">
-               Save Post
-            </button>
+            <div className="flex items-center">
+               <button type="submit" className="btn btn-primary">
+                  Save Changes
+               </button>
+
+               <Link to="/dashboard/articles" className="btn btn-ghost rounded-full">
+                  Cancel
+               </Link>
+            </div>
          </form>
       </>
    )

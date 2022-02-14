@@ -40,7 +40,7 @@ export default function ImageUpload({
       <>
          <div className="form-control">
             <label className="label">
-               <span className="label-text">Featured Image</span>
+               <span className="label-text">Thumbnail</span>
             </label>
 
             <div className=" group flex items-center justify-center w-full ">

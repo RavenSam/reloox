@@ -1,5 +1,7 @@
+import { PropsWithChildren } from "react"
 import { BiPencil, BiTrash } from "react-icons/bi"
 import { Link } from "remix"
+import { TableArticlesTypes } from "types"
 
 const dummyArticles = [
    { title: "Article one", created: "24 dec 2021", category: "finance", img: "" },
@@ -7,7 +9,11 @@ const dummyArticles = [
    { title: "Article Three", created: "24 dec 2021", category: "food", img: "" },
 ]
 
-export default function ArticlesTable() {
+interface ArticlesTableProps {
+   articles: TableArticlesTypes[]
+}
+
+export default function ArticlesTable({ articles }: PropsWithChildren<ArticlesTableProps>): JSX.Element {
    return (
       <>
          <section className="my-10 text-gray-600">
@@ -27,17 +33,18 @@ export default function ArticlesTable() {
                                     <div className="font-semibold text-left">category</div>
                                  </th>
                                  <th className="p-2 whitespace-nowrap">
-                                    <div className="font-semibold text-left">featured image</div>
+                                    <div className="font-semibold text-left">description</div>
                                  </th>
                                  <th className="p-2 whitespace-nowrap">
-                                    <div className="font-semibold text-left">created at</div>
+                                    <div className="font-semibold text-left">created</div>
                                  </th>
+
                                  <th className="p-2 whitespace-nowrap"></th>
                               </tr>
                            </thead>
                            <tbody className="text-sm divide-y divide-gray-100">
-                              {dummyArticles.map((el, i) => (
-                                 <tr key={i}>
+                              {articles.map((el) => (
+                                 <tr key={el.id}>
                                     <td>
                                        <div className="card bordered ">
                                           <div className="form-control">
@@ -50,7 +57,8 @@ export default function ArticlesTable() {
                                     <td className="p-2 whitespace-nowrap">
                                        <div className="flex items-center">
                                           <Link
-                                             to={`/dashboard/articles/edit/${i}`}
+                                             title={el.title}
+                                             to={`/dashboard/articles/edit/${el.slug}`}
                                              className="font-medium text-gray-800 max-w-[15ch] truncate"
                                           >
                                              {el.title}
@@ -59,26 +67,41 @@ export default function ArticlesTable() {
                                     </td>
 
                                     <td className="p-2 whitespace-nowrap">
-                                       <div className="text-left font-medium">{el.category}</div>
+                                       <div className="text-left font-medium text-gray-600 max-w-[20ch] truncate">
+                                          {el.categories.map((cat, i) => (
+                                             <span key={cat.id}>
+                                                {cat.name}
+                                                {", "}
+                                             </span>
+                                          ))}
+                                       </div>
                                     </td>
                                     <td className="p-2 whitespace-nowrap">
-                                       <div className="text-left w-12 h-12 rounded-full overflow-hidden">
-                                          <img src="/user.jpg" alt="" width={50} height={50} />
+                                       <div
+                                          title={el.description}
+                                          className="text-left text-gray-600 max-w-[25ch] truncate"
+                                       >
+                                          {el.description}
                                        </div>
                                     </td>
 
                                     <td className="p-2 whitespace-nowrap">
-                                       <div className="text-left font-medium">{el.created}</div>
+                                       <div className="text-left font-medium text-sm tracking-wide text-gray-600">
+                                          {new Date(el.createdAt).toLocaleDateString()}
+                                       </div>
                                     </td>
 
-                                    <td className="p-2 text-right whitespace-nowrap space-x-2">
-                                       <button className="btn btn-circle btn-error btn-outline btn-sm">
+                                    <td className="p-2 text-right whitespace-nowrap ">
+                                       <button className="btn btn-ghost btn-sm">
                                           <BiTrash size={18} />
                                        </button>
 
-                                       <button className="btn btn-circle btn-accent btn-outline btn-sm">
+                                       <Link
+                                          to={`/dashboard/articles/edit/${el.slug}`}
+                                          className="btn btn-ghost btn-sm"
+                                       >
                                           <BiPencil size={18} />
-                                       </button>
+                                       </Link>
                                     </td>
                                  </tr>
                               ))}

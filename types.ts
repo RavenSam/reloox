@@ -24,6 +24,7 @@ export interface ArticleTypes {
    thumbnail?: string
    createdAt: Date
    updatedAt: Date
+   categories: Category[]
 }
 
 export interface ArticlesTypes {
@@ -33,5 +34,20 @@ export interface ArticlesTypes {
    createdAt: Date
    description: string
    authorId: number
-   categories: any[]
+   categories: Category[]
+}
+
+export interface TableArticlesTypes {
+   id: number
+   slug: string
+   createdAt: Date
+   updatedAt: Date
+   description: string
+   title: string
+   categories: Category[]
+}
+
+export interface Category {
+   id: number
+   name: string
 }

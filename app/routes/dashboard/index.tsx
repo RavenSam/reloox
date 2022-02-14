@@ -9,7 +9,6 @@ export const loader: LoaderFunction = async ({ request }) => {
 
 export default function Dashboard(): JSX.Element {
    const loaderData = useLoaderData()
-   console.log(loaderData?.user)
 
    return (
       <>

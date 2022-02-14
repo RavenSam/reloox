@@ -1,9 +1,35 @@
-import React from "react"
 import { BiPlus } from "react-icons/bi"
-import { Link } from "remix"
+import { Link, LoaderFunction, useLoaderData } from "remix"
 import ArticlesTable from "~/components/ArticlesTable"
+import { db } from "~/lib/db.server"
+import { getUser } from "~/lib/session.server"
 
-export default function Articles() {
+export const loader: LoaderFunction = async ({ request }) => {
+   const user = await getUser(request)
+   const articles = await db.user.findUnique({
+      where: { id: user?.id },
+      select: {
+         posts: {
+            select: {
+               id: true,
+               slug: true,
+               createdAt: true,
+               updatedAt: true,
+               description: true,
+               title: true,
+               categories: true,
+            },
+            orderBy: { updatedAt: "desc" },
+         },
+      },
+   })
+
+   return { articles }
+}
+
+export default function Articles(): JSX.Element {
+   const loaderData = useLoaderData()
+
    return (
       <>
          <div className="flex items-center justify-between py-5">
@@ -17,7 +43,7 @@ export default function Articles() {
             </div>
          </div>
 
-         <ArticlesTable />
+         <ArticlesTable articles={loaderData?.articles?.posts} />
       </>
    )
 }

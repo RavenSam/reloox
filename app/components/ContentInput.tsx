@@ -1,7 +1,7 @@
 import { ClientOnly } from "remix-utils"
 import CkEditor from "./CkEditor.client"
 
-export default function ContentInput({ setContent }): JSX.Element {
+export default function ContentInput({ setContent, content }): JSX.Element {
    return (
       <>
          <div className="form-control">
@@ -9,14 +9,14 @@ export default function ContentInput({ setContent }): JSX.Element {
                <span className="label-text">Article Content</span>
             </label>
             <ClientOnly fallback={<Textarea />}>
-               <CkEditor setContent={setContent} />
+               <CkEditor content={content} setContent={setContent} />
             </ClientOnly>
          </div>
       </>
    )
 }
 
-export const Textarea = () => {
+export const Textarea = (): JSX.Element => {
    return (
       <>
          <textarea

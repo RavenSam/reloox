@@ -1,19 +1,44 @@
 import { useEffect, useState } from "react"
 import slugify from "../../../../utilts/slugify"
+import checkFields from "../../../../utilts/checkFields"
 import ImageUpload from "~/components/shared/ImageUpload"
-import { ActionFunction, json, useActionData } from "remix"
+import { ActionFunction, json, redirect, useActionData } from "remix"
 import ContentInput from "~/components/ContentInput"
+import { getUser } from "~/lib/session.server"
+import { db } from "~/lib/db.server"
 
 export const action: ActionFunction = async ({ request }) => {
-   const fields = await request.formData()
+   const form = await request.formData()
 
-   console.log(fields)
-
-   if (true) {
-      return json({ fieldErrors: { form: "Something went wrong" }, fields })
+   const fields = {
+      title: form.get("title"),
+      slug: form.get("slug"),
+      description: form.get("description"),
+      thumbnail: form.get("thumbnail"),
+      content: form.get("content"),
    }
 
-   return null
+   checkFields(fields)
+
+   // check if slug is already taken
+   const slugToString = typeof fields.slug === "string" ? fields.slug : fields.slug?.toString()
+   const slugIsTaken = await db.post.findFirst({ where: { slug: slugToString } })
+
+   if (slugIsTaken) {
+      return json({ fieldErrors: { slug: "Slug already taken" }, fields })
+   }
+
+   //   Get the author
+   const user = await getUser(request)
+
+   if (!user) {
+      return redirect("/auth/login")
+   }
+
+   //  create the post buy updating the user
+   await db.user.update({ where: { id: user.id }, data: { posts: { create: fields } } })
+
+   return redirect("/dashboard/articles")
 }
 
 export default function NewArticle(): JSX.Element {
@@ -52,6 +77,8 @@ export default function NewArticle(): JSX.Element {
                      className="input focus:input-primary input-bordered w-full"
                      value={title}
                      onChange={(e) => setTitle(e.target.value)}
+                     minLength={5}
+                     maxLength={60}
                      required
                   />
                </div>
@@ -80,12 +107,14 @@ export default function NewArticle(): JSX.Element {
                      defaultValue={actionData?.fields?.description}
                      name="description"
                      className="textarea h-full textarea-bordered focus:textarea-primary  w-full"
+                     maxLength={160}
+                     minLength={10}
                      required
                   ></textarea>
                </div>
 
                <ImageUpload uploadedImage={uploadedImage} setUploadedImage={setUploadedImage} />
-               <input type="hidden" name="featuredImage" value={uploadedImage?.url || ""} className="hidden" required />
+               <input type="hidden" name="thumbnail" value={uploadedImage?.url || ""} className="hidden" required />
             </div>
 
             <div className="card bordered w-fit">
@@ -97,11 +126,11 @@ export default function NewArticle(): JSX.Element {
                </div>
             </div>
 
-            <ContentInput setContent={setContent} />
+            <ContentInput content={content} setContent={setContent} />
             <input type="hidden" name="content" value={content} className="hidden" required />
 
             <button type="submit" className="btn btn-primary">
-               Save Post
+               Publish Post
             </button>
          </form>
       </>

@@ -1,8 +1,8 @@
-import { Link, MetaFunction, useLoaderData } from "remix"
+import { Link, LoaderFunction, MetaFunction, useLoaderData } from "remix"
 import { ArticlesTypes } from "types"
 import { db } from "~/lib/db.server"
 
-export const loader = async () => {
+export const loader: LoaderFunction = async () => {
    const articles = await db.post.findMany({
       take: 20,
       select: {
