@@ -39,7 +39,7 @@ export default function UserLayout({ children, user }: PropsWithChildren<UserLay
                <ul className="relative menu p-4 pt-16 overflow-y-auto w-screen max-w-[18rem] bg-gray-900 text-gray-100">
                   <label
                      htmlFor="my-drawer-2"
-                     className="btn btn-square bg-transparent hover:bg-white absolute top-2 right-2 hover:text-primary"
+                     className="md:hidden btn btn-square bg-transparent hover:bg-white absolute top-2 right-2 hover:text-primary"
                   >
                      <MdClear size={20} />
                   </label>
