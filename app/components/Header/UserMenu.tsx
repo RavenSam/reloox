@@ -6,7 +6,7 @@ import { linkType } from "types"
 const navLinks: linkType[] = [
    { name: "dashboard", href: "/dashboard" },
    { name: "my articles", href: "/dashboard/articles" },
-   { name: "create article", href: "/dashboard/articles/new-article" },
+   { name: "create article", href: "/dashboard/articles/new" },
    { name: "settings", href: "/dashboard/" },
 ]
 

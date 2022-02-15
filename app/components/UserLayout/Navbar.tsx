@@ -4,7 +4,7 @@ import UserMenu from "../Header/UserMenu"
 
 const userLinks = [
    { name: "home", href: "/" },
-   { name: "create article", href: "/dashboard/articles/new-article" },
+   { name: "create article", href: "/dashboard/articles/new" },
    { name: "browse articles", href: "/articles" },
 ]
 

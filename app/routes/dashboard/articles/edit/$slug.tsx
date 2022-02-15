@@ -7,9 +7,12 @@ import { ArticleTypes } from "types"
 import { db } from "~/lib/db.server"
 import { getUser } from "~/lib/session.server"
 import checkFields from "../../../../../utilts/checkFields"
+import AddCategories from "~/components/AddCategories"
+import { Category } from "@prisma/client"
 
 export const loader: LoaderFunction = async ({ params }) => {
-   const post = await db.post.findUnique({ where: { slug: params.slug } })
+   const post = await db.post.findUnique({ where: { slug: params.slug }, include: { categories: true } })
+   const categories = await db.category.findMany({ take: 20, select: { id: true, name: true } })
 
    if (!post) {
       throw new Response("Not Found", {
@@ -17,9 +20,7 @@ export const loader: LoaderFunction = async ({ params }) => {
       })
    }
 
-   const data = { post }
-
-   return data
+   return { post, categories }
 }
 
 export const action: ActionFunction = async ({ request }) => {
@@ -33,7 +34,6 @@ export const action: ActionFunction = async ({ request }) => {
    const form = await request.formData()
 
    const fields = {
-      id: Number(form.get("pid")),
       title: form.get("title"),
       slug: form.get("slug"),
       description: form.get("description"),
@@ -41,13 +41,22 @@ export const action: ActionFunction = async ({ request }) => {
       content: form.get("content"),
    }
 
+   const catsId =
+      form
+         .get("categories")
+         ?.toString()
+         .split(",")
+         .map((x) => ({ id: Number(x) })) || []
+
+   const pid = Number(form.get("pid"))
+
    checkFields(fields)
 
    // Update the post
    await db.user.update({
       where: { id: user.id },
       // @ts-ignore: Unreachable code error
-      data: { posts: { update: { where: { id: fields.id }, data: fields } } },
+      data: { posts: { update: { where: { id: pid }, data: { ...fields, categories: { set: catsId } } } } },
    })
 
    // Create user session
@@ -55,12 +64,13 @@ export const action: ActionFunction = async ({ request }) => {
 }
 
 export default function EditArticle(): JSX.Element {
-   const { post }: { post: ArticleTypes } = useLoaderData()
+   const { post, categories }: { post: ArticleTypes; categories: Category[] } = useLoaderData()
 
    const [title, setTitle] = useState<string>(post.title)
    const [slug, setSlug] = useState<string>(post.title)
    const [uploadedImage, setUploadedImage] = useState<any>(post.thumbnail)
    const [content, setContent] = useState(post.content)
+   const [selectedCategories, setSelectedCategories] = useState<any>(post.categories)
 
    useEffect(() => {
       setSlug(slugify(title))
@@ -121,13 +131,28 @@ export default function EditArticle(): JSX.Element {
                <input type="hidden" name="thumbnail" value={uploadedImage?.url || ""} className="hidden" required />
             </div>
 
-            <div className="card bordered w-fit">
-               <div className="form-control">
-                  <label className="cursor-pointer label !justify-start gap-4">
-                     <input type="checkbox" name="featuedArticle" className="toggle toggle-primary" />
-                     <span className="label-text">Featured post</span>
-                  </label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+               <div className="card bordered w-fit">
+                  <div className="form-control">
+                     <label className="cursor-pointer label !justify-start gap-4">
+                        <input type="checkbox" name="featuedArticle" className="toggle toggle-primary" />
+                        <span className="label-text">Featured post</span>
+                     </label>
+                  </div>
                </div>
+
+               <AddCategories
+                  selectedCategories={selectedCategories}
+                  setSelectedCategories={setSelectedCategories}
+                  categories={categories}
+               />
+               <input
+                  type="hidden"
+                  name="categories"
+                  value={selectedCategories.map((el) => el.id)}
+                  className="hidden"
+                  required
+               />
             </div>
 
             <ContentInput content={content} setContent={setContent} />

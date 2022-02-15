@@ -2,10 +2,11 @@ import { useEffect, useState } from "react"
 import slugify from "../../../../utilts/slugify"
 import checkFields from "../../../../utilts/checkFields"
 import ImageUpload from "~/components/shared/ImageUpload"
-import { ActionFunction, json, Link, redirect, useActionData } from "remix"
+import { ActionFunction, json, Link, LoaderFunction, redirect, useActionData, useLoaderData } from "remix"
 import ContentInput from "~/components/ContentInput"
 import { getUser } from "~/lib/session.server"
 import { db } from "~/lib/db.server"
+import AddCategories from "~/components/AddCategories"
 
 export const action: ActionFunction = async ({ request }) => {
    const form = await request.formData()
@@ -17,6 +18,13 @@ export const action: ActionFunction = async ({ request }) => {
       thumbnail: form.get("thumbnail"),
       content: form.get("content"),
    }
+
+   const catsId =
+      form
+         .get("categories")
+         ?.toString()
+         .split(",")
+         .map((x) => ({ id: Number(x) })) || []
 
    checkFields(fields)
 
@@ -36,18 +44,30 @@ export const action: ActionFunction = async ({ request }) => {
    }
 
    //  create the post buy updating the user
-   // @ts-ignore: Unreachable code error
-   await db.user.update({ where: { id: user.id }, data: { posts: { create: fields } } })
+   await db.user.update({
+      where: { id: user.id },
+      // @ts-ignore: Unreachable code error
+      data: { posts: { create: { ...fields, categories: { connect: catsId } } } },
+   })
 
    return redirect("/dashboard/articles")
 }
 
+export const loader: LoaderFunction = async () => {
+   const categories = await db.category.findMany({ take: 20, select: { id: true, name: true } })
+
+   return { categories }
+}
+
 export default function NewArticle(): JSX.Element {
    const actionData = useActionData()
+   const { categories } = useLoaderData()
+
    const [title, setTitle] = useState<string>(actionData?.fields?.title || "")
    const [slug, setSlug] = useState<string>(actionData?.fields?.slug || "")
    const [uploadedImage, setUploadedImage] = useState<any>(actionData?.fields?.thumbnail)
    const [content, setContent] = useState(actionData?.fields?.content || "")
+   const [selectedCategories, setSelectedCategories] = useState<any>([])
 
    useEffect(() => setSlug(slugify(title)), [title])
 
@@ -118,13 +138,28 @@ export default function NewArticle(): JSX.Element {
                <input type="hidden" name="thumbnail" value={uploadedImage?.url || ""} className="hidden" required />
             </div>
 
-            <div className="card bordered w-fit">
-               <div className="form-control">
-                  <label className="cursor-pointer label !justify-start gap-4">
-                     <input type="checkbox" name="featuedArticle" className="toggle toggle-primary" />
-                     <span className="label-text">Featured post</span>
-                  </label>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+               <div className="card bordered w-fit">
+                  <div className="form-control">
+                     <label className="cursor-pointer label !justify-start gap-4">
+                        <input type="checkbox" name="featuedArticle" className="toggle toggle-primary" />
+                        <span className="label-text">Featured post</span>
+                     </label>
+                  </div>
                </div>
+
+               <AddCategories
+                  selectedCategories={selectedCategories}
+                  setSelectedCategories={setSelectedCategories}
+                  categories={categories}
+               />
+               <input
+                  type="hidden"
+                  name="categories"
+                  value={selectedCategories.map((el) => el.id)}
+                  className="hidden"
+                  required
+               />
             </div>
 
             <ContentInput content={content} setContent={setContent} />

@@ -36,14 +36,29 @@ export default function Articles(): JSX.Element {
             <h1>Articles</h1>
 
             <div className="">
-               <Link to="/dashboard/articles/new-article" className="btn btn-outline btn-primary gap-2">
+               <Link
+                  to="/dashboard/articles/new"
+                  className="btn btn-outline btn-primary gap-2 btn-sm md:btn-md px-4 md:px-8"
+               >
                   <BiPlus size={18} />
                   New Article
                </Link>
             </div>
          </div>
 
-         <ArticlesTable articles={loaderData?.articles?.posts} />
+         {loaderData?.articles?.posts?.length > 0 ? (
+            <ArticlesTable articles={loaderData?.articles?.posts} />
+         ) : (
+            <div className="flex text-center items-center justify-center min-h-[13rem]">
+               <p className="text-gray-600 font-medium text-xl leading-10">
+                  You don't have any article <br /> Click{" "}
+                  <Link to="/dashboard/articles/new" className="text-primary underline">
+                     here
+                  </Link>{" "}
+                  to create one
+               </p>
+            </div>
+         )}
       </>
    )
 }
