@@ -1,13 +1,7 @@
 import { User } from "@prisma/client"
 import { PropsWithChildren } from "react"
-import {
-   MdOutlineSpaceDashboard,
-   MdOutlineBookmarks,
-   MdOutlineSettings,
-   MdOutlineLogout,
-   MdClear,
-} from "react-icons/md"
-import { BsFolder } from "react-icons/bs"
+import { MdOutlineSpaceDashboard, MdOutlineSettings, MdOutlineLogout, MdClear } from "react-icons/md"
+import { BsFolder, BsHouse, BsJournal, BsTags } from "react-icons/bs"
 import { Link } from "remix"
 import { linkType } from "types"
 import Navbar from "./Navbar"
@@ -15,8 +9,13 @@ import Navbar from "./Navbar"
 const dashboardLinks: linkType[] = [
    { name: "dashboard", href: "/dashboard", icon: MdOutlineSpaceDashboard },
    { name: "articles", href: "/dashboard/articles", icon: BsFolder },
-   { name: "bookmarks", href: "/dashboard", icon: MdOutlineBookmarks },
-   { name: "settings", href: "/dashboard", icon: MdOutlineSettings },
+   { name: "settings", href: "/dashboard/settings", icon: MdOutlineSettings },
+]
+
+const visitLinks: linkType[] = [
+   { name: "home", href: "/", icon: BsHouse },
+   { name: "blog", href: "/blog", icon: BsJournal },
+   { name: "categories", href: "/categories", icon: BsTags },
 ]
 
 interface UserLayoutProps {
@@ -44,25 +43,43 @@ export default function UserLayout({ children, user }: PropsWithChildren<UserLay
                      <MdClear size={20} />
                   </label>
 
-                  {dashboardLinks.map((el: any, i) => (
-                     <li key={i}>
-                        <Link
-                           to={el.href}
-                           className="flex items-center gap-2 capitalize font-medium hover:text-primary hover:bg-white"
-                        >
-                           <el.icon size={25} />
-                           <span>{el.name}</span>
-                        </Link>
-                     </li>
-                  ))}
+                  <div className="">
+                     <span className="text-gray-300 py-2">User</span>
+                     {dashboardLinks.map((el: any, i) => (
+                        <li key={i}>
+                           <Link
+                              to={el.href}
+                              className="flex items-center gap-4 capitalize font-medium hover:text-primary hover:bg-white"
+                           >
+                              <el.icon size={20} />
+                              <span>{el.name}</span>
+                           </Link>
+                        </li>
+                     ))}
+                  </div>
+
+                  <div className="mt-4">
+                     <span className="text-gray-300 py-2  text-sm">Explore</span>
+                     {visitLinks.map((el: any, i) => (
+                        <li key={i}>
+                           <Link
+                              to={el.href}
+                              className="flex items-center gap-4 capitalize font-medium hover:text-primary hover:bg-white"
+                           >
+                              <el.icon size={20} />
+                              <span>{el.name}</span>
+                           </Link>
+                        </li>
+                     ))}
+                  </div>
 
                   <li className="mt-auto">
                      <form action="/auth/logout" method="post">
                         <button
                            type="submit"
-                           className="flex items-center gap-2 capitalize font-medium hover:text-primary hover:bg-white w-full px-4 py-3 rounded-lg"
+                           className="flex items-center gap-4 capitalize font-medium hover:text-primary hover:bg-white w-full px-4 py-3 rounded-lg"
                         >
-                           <MdOutlineLogout size={25} />
+                           <MdOutlineLogout size={20} />
                            <span>Log out</span>
                         </button>
                      </form>

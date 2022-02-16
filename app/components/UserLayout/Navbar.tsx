@@ -12,8 +12,8 @@ export default function Navbar({ user }): JSX.Element {
    return (
       <>
          <header className="sticky top-0 left-0 w-full p-1 z-10">
-            <div className="navbar mb-2 shadow border bg-white text-gray-700 rounded-box space-x-4">
-               <div className="flex-none lg:hidden px-2">
+            <div className="navbar mb-2 shadow border bg-white text-gray-700 rounded-box space-x-2 md:space-x-4">
+               <div className="flex-none lg:hidden">
                   <label htmlFor="my-drawer-2" className="drawer-button  cursor-pointer">
                      <BiMenu size={25} />
                   </label>
@@ -38,7 +38,7 @@ export default function Navbar({ user }): JSX.Element {
                      <BiSearch size={25} />
                   </button>
                </div>
-               <div className="flex-none">
+               <div className="flex-none hidden sm:block">
                   <button className="btn btn-square btn-ghost ">
                      <BiBell size={25} />
                   </button>

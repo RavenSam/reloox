@@ -128,7 +128,13 @@ export default function EditArticle(): JSX.Element {
                </div>
 
                <ImageUpload uploadedImage={uploadedImage} setUploadedImage={setUploadedImage} />
-               <input type="hidden" name="thumbnail" value={uploadedImage?.url || ""} className="hidden" required />
+               <input
+                  type="hidden"
+                  name="thumbnail"
+                  defaultValue={typeof uploadedImage === "string" ? uploadedImage : uploadedImage?.url}
+                  className="hidden"
+                  required
+               />
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
