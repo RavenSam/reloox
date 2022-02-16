@@ -11,6 +11,7 @@ export const loader: LoaderFunction = async ({ request }) => {
       where: { id: user?.id },
       select: {
          posts: {
+            take: 3,
             select: {
                id: true,
                slug: true,
@@ -51,7 +52,7 @@ export default function Dashboard(): JSX.Element {
                   </Link>
                </div>
 
-               <ArticlesTable articles={loaderData?.articles?.posts?.slice(0, 3)} />
+               <ArticlesTable articles={loaderData?.articles?.posts} />
             </>
          ) : (
             <div className="flex text-center items-center justify-center min-h-[13rem]">

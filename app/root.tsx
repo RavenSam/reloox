@@ -48,7 +48,7 @@ export const Document = ({ children }: PropsWithChildren<{}>): JSX.Element => {
             <Meta />
             <Links />
          </head>
-         <body>
+         <body className="overflow-x-hidden">
             {children}
 
             <ScrollRestoration />
