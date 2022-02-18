@@ -40,7 +40,7 @@ export default function DiscoverThree() {
       <>
          <div className="w-full max-w-5xl mx-auto py-20">
             <div className="grid grid-cols-1 md:grid-cols-2 ">
-               <div className="space-y-4 md:space-y-8 py-4 text-center md:text-left max-w-md mx-auto md:mx-0">
+               <div className="space-y-4 md:space-y-8 py-4 mb-10 text-center md:text-left max-w-md mx-auto md:mx-0">
                   <h2 className="text-2xl md:text-3xl lg:text-4xl capitalize">
                      Discover our <span className="text-primary">popular</span> Articles & stories
                   </h2>

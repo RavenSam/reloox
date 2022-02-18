@@ -14,7 +14,7 @@ export default function Navbar({ user }): JSX.Element {
 
    return (
       <>
-         <header className="fixed z-10 top-0 right-0 w-full p-2 lg:px-4">
+         <header className="fixed z-20 top-0 right-0 w-full p-2 lg:px-4">
             <div className="navbar mb-2 shadow bg-white border rounded-box">
                <div className="flex-1 px-2 mx-2">
                   <Link to="/" className="text-xl font-extrabold">

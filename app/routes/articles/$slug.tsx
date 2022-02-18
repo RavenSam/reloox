@@ -20,11 +20,27 @@ export default function Post() {
    const { post }: { post: ArticleTypes } = useLoaderData()
 
    return (
-      <div>
-         <h1 className="text-2xl font-bold">{post.title}</h1>
+      <div className="p-4">
+         <div className="relative -mt-10">
+            <div className="overflow-hidden max-h-[90vh] rounded-lg">
+               <img src="/about.jpg" alt={post?.title} className="w-full h-full object-cover object-center" />
+            </div>
 
-         <div className="">
-            <p className="">{post.content}</p>
+            <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center  rounded-lg">
+               <div className="max-w-4xl w-full mx-auto p-4">
+                  <h1 className="text-white text-3xl md:text-4xl lg:text-5xl capitalize text-center md:text-left">
+                     {post.title}
+                  </h1>
+               </div>
+            </div>
+
+            <div className="absolute bottom-0 left-0 w-full  h-[30vh] bg-gradient-to-t from-gray-100" />
+         </div>
+
+         <div className="max-w-2xl w-full mx-auto">
+            <article className="prose">
+               <div dangerouslySetInnerHTML={{ __html: post.content }} />
+            </article>
          </div>
       </div>
    )
