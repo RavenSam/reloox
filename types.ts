@@ -19,12 +19,19 @@ export interface ArticleTypes {
    authorId: number
    slug: string
    title: string
-   content: string
    description: string
-   thumbnail?: string
+   content: string
    createdAt: Date
    updatedAt: Date
+   thumbnail: string
+   author: AuthorType
    categories: Category[]
+}
+
+export interface AuthorType {
+   id: number
+   email: string
+   username: string
 }
 
 export interface ArticlesTypes {
@@ -34,6 +41,7 @@ export interface ArticlesTypes {
    createdAt: Date
    description: string
    authorId: number
+   thumbnail?: string
    categories: Category[]
 }
 

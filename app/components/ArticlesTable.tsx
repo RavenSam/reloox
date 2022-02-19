@@ -61,7 +61,7 @@ export default function ArticlesTable({ articles }: PropsWithChildren<ArticlesTa
                                     </td>
 
                                     <td className="p-2 whitespace-nowrap">
-                                       <div className="text-left font-medium text-gray-600 max-w-[20ch] truncate">
+                                       <div className="text-left font-medium capitalize text-gray-600 max-w-[20ch] truncate">
                                           {el.categories.map((cat, i) => (
                                              <span key={cat.id}>
                                                 {cat.name}

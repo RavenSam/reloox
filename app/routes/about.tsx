@@ -1,4 +1,5 @@
 import React from "react"
+import { MetaFunction } from "remix"
 
 export default function About() {
    return (
@@ -70,4 +71,11 @@ export default function About() {
          </div>
       </>
    )
+}
+
+export const meta: MetaFunction = () => {
+   const title = "About | ReblooX"
+   const description = `Rebloox write and read | Find the best stories, articles and post. And have fun time writing your onw stories for other people to enjoy.`
+
+   return { title, description }
 }

@@ -6,7 +6,8 @@ import UserMenu from "./UserMenu"
 const navLinks: linkType[] = [
    { name: "home", href: "/" },
    { name: "articles", href: "/articles" },
-   { name: "contact", href: "/contact" },
+   { name: "About", href: "/about" },
+   { name: "Categories", href: "/category" },
 ]
 
 export default function Navbar({ user }): JSX.Element {
@@ -46,7 +47,7 @@ export default function Navbar({ user }): JSX.Element {
                   </div>
                </div>
 
-               <MenuSM navLinks={navLinks} />
+               <MenuSM user={user} navLinks={navLinks} />
             </div>
          </header>
       </>

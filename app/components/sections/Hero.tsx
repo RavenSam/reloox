@@ -17,11 +17,11 @@ export default function Hero() {
                   </p>
 
                   <div className="flex items-center sm:space-x-2">
-                     <Link to="/auth/login" className="btn btn-primary text-sm sm:text-base">
+                     <Link to="/dashboard/articles/new" className="btn btn-primary text-sm sm:text-base">
                         Tell Us a Story
                      </Link>
                      <Link
-                        to="/blog"
+                        to="/articles"
                         className="hidden sm:flex btn btn-primary btn-outline rounded-full text-sm sm:text-base"
                      >
                         Explore stories

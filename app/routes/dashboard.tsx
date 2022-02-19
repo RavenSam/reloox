@@ -1,4 +1,4 @@
-import { LoaderFunction, Outlet, redirect, useLoaderData } from "remix"
+import { LoaderFunction, MetaFunction, Outlet, redirect, useLoaderData } from "remix"
 import UserLayout from "~/components/UserLayout"
 import { getUser } from "~/lib/session.server"
 
@@ -24,4 +24,11 @@ export default function DashboardLayout(): JSX.Element {
          </UserLayout>
       </>
    )
+}
+
+export const meta: MetaFunction = () => {
+   const title = "Dashboard | ReblooX"
+   const description = `Rebloox write and read | Find the best stories, articles and post. And have fun time writing your onw stories for other people to enjoy.`
+
+   return { title, description }
 }

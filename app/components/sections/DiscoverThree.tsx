@@ -2,40 +2,40 @@ import { Link } from "remix"
 import { ArticlesTypes } from "types"
 import truncate from "../../../utilts/truncate"
 
-const articles = [
-   {
-      id: 1,
-      title: "article one one one one one one one one one one one one one one one one ",
-      slug: "article-one",
-      description:
-         "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Itaque, fuga animi. Fugit eveniet veritatis minima, expedita dolorum tenetur unde facilis.",
-      authorId: "john doe",
-      categories: "",
-      thumbnail: "https://api.lorem.space/image/movie?w=200&h=280",
-   },
-   {
-      id: 2,
-      title: "article two",
-      slug: "article-two",
-      description:
-         "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Itaque, fuga animi. Fugit eveniet veritatis minima, expedita dolorum tenetur unde facilis.",
-      authorId: "john doe",
-      categories: "",
-      thumbnail: "https://api.lorem.space/image/movie?w=200&h=280",
-   },
-   {
-      id: 3,
-      title: "article Three",
-      slug: "article-three",
-      description:
-         "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Itaque, fuga animi. Fugit eveniet veritatis minima, expedita dolorum tenetur unde facilis.",
-      authorId: "john doe",
-      categories: "",
-      thumbnail: "https://api.lorem.space/image/movie?w=200&h=280",
-   },
-]
+// const articles = [
+//    {
+//       id: 1,
+//       title: "article one one one one one one one one one one one one one one one one ",
+//       slug: "article-one",
+//       description:
+//          "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Itaque, fuga animi. Fugit eveniet veritatis minima, expedita dolorum tenetur unde facilis.",
+//       authorId: "john doe",
+//       categories: "",
+//       thumbnail: "https://api.lorem.space/image/movie?w=200&h=280",
+//    },
+//    {
+//       id: 2,
+//       title: "article two",
+//       slug: "article-two",
+//       description:
+//          "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Itaque, fuga animi. Fugit eveniet veritatis minima, expedita dolorum tenetur unde facilis.",
+//       authorId: "john doe",
+//       categories: "",
+//       thumbnail: "https://api.lorem.space/image/movie?w=200&h=280",
+//    },
+//    {
+//       id: 3,
+//       title: "article Three",
+//       slug: "article-three",
+//       description:
+//          "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Itaque, fuga animi. Fugit eveniet veritatis minima, expedita dolorum tenetur unde facilis.",
+//       authorId: "john doe",
+//       categories: "",
+//       thumbnail: "https://api.lorem.space/image/movie?w=200&h=280",
+//    },
+// ]
 
-export default function DiscoverThree() {
+export default function DiscoverThree({ articles }): JSX.Element {
    return (
       <>
          <div className="w-full max-w-5xl mx-auto py-20">
@@ -50,7 +50,7 @@ export default function DiscoverThree() {
                      veritatis minima, expedita dolorum tenetur unde facilis.
                   </p>
 
-                  <Link to="/blog" className="btn btn-primary">
+                  <Link to="/articles" className="btn btn-primary">
                      see more stories
                   </Link>
                </div>

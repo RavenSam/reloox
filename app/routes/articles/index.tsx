@@ -1,6 +1,7 @@
 import { Link, LoaderFunction, MetaFunction, useLoaderData } from "remix"
 import { ArticlesTypes } from "types"
 import { db } from "~/lib/db.server"
+import truncate from "../../../utilts/truncate"
 
 export const loader: LoaderFunction = async () => {
    const articles = await db.post.findMany({
@@ -25,19 +26,38 @@ export default function PostItems() {
    const { articles }: { articles: ArticlesTypes[] } = useLoaderData()
 
    return (
-      <div>
-         <h1 className="">Articles</h1>
-
+      <div className="w-full max-w-5xl mx-auto p-4">
          <div className="">
-            <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
-               {articles.map((article) => (
-                  <div key={article.id} className="rounded-xl border p-4 shadow">
-                     <Link to={`/articles/${article.slug}`}>
-                        <h2>{article.title}</h2>
-                     </Link>
-                     <p className="text-gray-600 text-sm">{new Date(article.createdAt).toLocaleDateString()}</p>
-                  </div>
-               ))}
+            <h1 className="capitalize">All the posts</h1>
+
+            <hr className="my-10" />
+
+            <div className="w-full max-w-3xl mx-auto">
+               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                  {articles.map((el) => (
+                     <div className="w-full " key={el.id}>
+                        <div className=" border rounded-xl">
+                           {el.thumbnail && el?.thumbnail?.length > 3 && (
+                              <figure className="h-[200px] rounded-xl overflow-hidden">
+                                 <img src={el.thumbnail} alt={el.title} className="object-cover w-full h-full" />
+                              </figure>
+                           )}
+                           <div className="p-2">
+                              <Link
+                                 to={`/articles/${el.slug}`}
+                                 title={el.title}
+                                 className="font-bold md:text-lg lg:text-xl"
+                              >
+                                 {truncate(el.title)}
+                              </Link>
+                              <p className="text-xs sm:text-sm md:text-base text-gray-600 py-1">
+                                 {truncate(el.description, 100)}
+                              </p>
+                           </div>
+                        </div>
+                     </div>
+                  ))}
+               </div>
             </div>
          </div>
       </div>

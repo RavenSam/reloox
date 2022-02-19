@@ -40,7 +40,7 @@ export default function AddCategories({ categories, selectedCategories, setSelec
             {selectedCategories.map((cat) => (
                <div
                   key={cat.id}
-                  className="flex items-center gap-2 group text-sm border hover:border-primary hover:text-primary  rounded-full px-4 py-2 cursor-pointer m-1"
+                  className="flex items-center gap-2 group text-sm capitalize border hover:border-primary hover:text-primary  rounded-full px-4 py-2 cursor-pointer m-1"
                >
                   <button className="" onClick={() => removeCat(cat.id)}>
                      <HiX size={15} />
