@@ -41,10 +41,10 @@ export default function Category() {
                   <hr className="my-10" />
 
                   <div className="w-full max-w-4xl mx-auto">
-                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-4 gap-y-6">
                         {articles.map((el) => (
                            <div className="w-full " key={el.id}>
-                              <div className=" border rounded-xl">
+                              <div className="rounded-xl">
                                  {el.thumbnail && el?.thumbnail?.length > 3 && (
                                     <figure className="h-[200px] rounded-xl overflow-hidden">
                                        <img src={el.thumbnail} alt={el.title} className="object-cover w-full h-full" />
