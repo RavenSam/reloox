@@ -40,7 +40,7 @@ export default function Category() {
 
                   <hr className="my-10" />
 
-                  <div className="w-full max-w-3xl mx-auto">
+                  <div className="w-full max-w-4xl mx-auto">
                      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
                         {articles.map((el) => (
                            <div className="w-full " key={el.id}>
