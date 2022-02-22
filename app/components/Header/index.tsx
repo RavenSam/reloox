@@ -6,7 +6,6 @@ import UserMenu from "./UserMenu"
 const navLinks: linkType[] = [
    { name: "home", href: "/" },
    { name: "articles", href: "/articles" },
-   { name: "About", href: "/about" },
    { name: "Categories", href: "/category" },
 ]
 

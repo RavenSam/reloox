@@ -52,7 +52,7 @@ export default function ArticlesTable({ articles }: PropsWithChildren<ArticlesTa
                                        <div className="flex items-center">
                                           <Link
                                              title={el.title}
-                                             to={`/dashboard/articles/edit/${el.slug}`}
+                                             to={`/articles/${el.slug}`}
                                              className="font-medium text-gray-800 max-w-[15ch] truncate"
                                           >
                                              {el.title}
